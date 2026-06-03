@@ -1,11 +1,11 @@
 {
-  "name": "react",
+  "name": "react-app",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
-    "recharts": "2.0.0"
+    "react-dom": "^18.1.0",
+    "recharts": "^2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
