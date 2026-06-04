@@ -18,6 +18,7 @@ const fmt = v => v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const today = () => new Date().toISOString().split("T")[0];
 const monthKey = () => { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}`; };
 
+// Cores do tema claro
 const C = {
   bg: "#f1f5f9",
   card: "#ffffff",
@@ -196,6 +197,7 @@ export default function App(){
 
   return(
     <div style={{fontFamily:"system-ui,sans-serif",background:C.bg,color:C.text,maxWidth:"480px",margin:"0 auto",paddingBottom:"60px"}}>
+      {/* Header */}
       <div style={{background:"#7c3aed",padding:"10px 16px",position:"sticky",top:0,zIndex:10,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <span style={{fontSize:"16px",fontWeight:"700",color:"#fff"}}>💸 Gastos</span>
         <span style={{fontSize:"11px",color:"rgba(255,255,255,0.7)"}}>{now.toLocaleDateString("pt-BR",{day:"numeric",month:"short"})}</span>
@@ -203,12 +205,14 @@ export default function App(){
 
       <div style={{padding:"10px 12px",display:"flex",flexDirection:"column",gap:"10px"}}>
 
+      {/* DASHBOARD */}
       {tab==="dashboard"&&<>
         <div style={{display:"flex",gap:"8px"}}>
           <MiniCard title="Este Mês" value={fmt(mTotal)} sub={`${mExp.length} gastos`} gradient="linear-gradient(135deg,#7c3aed,#a855f7)"/>
           <MiniCard title="Hoje" value={fmt(tTotal)} sub={`${tExp.length} gastos`} gradient="linear-gradient(135deg,#059669,#10b981)"/>
         </div>
 
+        {/* Orçamento */}
         <div style={{background:C.card,borderRadius:"12px",padding:"12px",boxShadow:"0 1px 3px rgba(0,0,0,0.08)"}}>
           <div style={{display:"flex",justifyContent:"space-between",marginBottom:"6px"}}>
             <span style={{fontSize:"12px",color:C.sub,fontWeight:"600"}}>Orçamento Mensal</span>
@@ -224,6 +228,7 @@ export default function App(){
           <p style={{margin:"4px 0 0",fontSize:"10px",color:C.muted,textAlign:"right"}}>{fmt(mTotal)} de {fmt(budget)}</p>
         </div>
 
+        {/* Contas */}
         <div onClick={()=>setTab("bills")} style={{background:C.card,borderRadius:"12px",padding:"12px",cursor:"pointer",boxShadow:"0 1px 3px rgba(0,0,0,0.08)",borderLeft:"4px solid #38bdf8"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"8px"}}>
             <div>
@@ -245,11 +250,13 @@ export default function App(){
           </div>
         </div>
 
+        {/* Ações */}
         <div style={{display:"flex",gap:"8px"}}>
           <button onClick={()=>setTab("add")} style={{flex:1,background:"#7c3aed",color:"#fff",border:"none",borderRadius:"10px",padding:"10px",cursor:"pointer",fontSize:"13px",fontWeight:"600"}}>➕ Adicionar</button>
           <button onClick={()=>setTab("charts")} style={{flex:1,background:"#ecfdf5",color:"#059669",border:"1px solid #bbf7d0",borderRadius:"10px",padding:"10px",cursor:"pointer",fontSize:"13px",fontWeight:"600"}}>📧 Gmail Sync</button>
         </div>
 
+        {/* Últimas */}
         <div style={{background:C.card,borderRadius:"12px",padding:"12px",boxShadow:"0 1px 3px rgba(0,0,0,0.08)"}}>
           <p style={{margin:"0 0 6px",fontSize:"12px",color:C.sub,fontWeight:"700"}}>Últimas transações</p>
           {expenses.slice(0,5).map(e=><ExpRow key={e.id} e={e} fmt={fmt}/>)}
@@ -258,6 +265,7 @@ export default function App(){
         </div>
       </>}
 
+      {/* CONTAS */}
       {tab==="bills"&&<>
         <div style={{background:C.card,borderRadius:"12px",padding:"12px",boxShadow:"0 1px 3px rgba(0,0,0,0.08)",display:"flex",justifyContent:"space-around",textAlign:"center"}}>
           <div><p style={{margin:0,fontSize:"16px",fontWeight:"700",color:"#0284c7"}}>{fmt(billsTotal)}</p><p style={{margin:0,fontSize:"10px",color:C.muted}}>Total mensal</p></div>
@@ -324,6 +332,7 @@ export default function App(){
         })}
       </>}
 
+      {/* ADD */}
       {tab==="add"&&
         <div style={{background:C.card,borderRadius:"12px",padding:"12px",boxShadow:"0 1px 3px rgba(0,0,0,0.08)",display:"flex",flexDirection:"column",gap:"10px"}}>
           <div style={{background:"#faf5ff",border:"1px solid #e9d5ff",borderRadius:"10px",padding:"10px",textAlign:"center"}}>
@@ -354,6 +363,7 @@ export default function App(){
         </div>
       }
 
+      {/* HISTÓRICO */}
       {tab==="history"&&<>
         <p style={{color:C.muted,fontSize:"11px",margin:"0 0 4px"}}>{expenses.length} transação{expenses.length!==1?"s":""}</p>
         {expenses.length===0&&<p style={{color:C.muted,textAlign:"center",padding:"30px 0",fontSize:"13px"}}>Nenhum gasto ainda 💤</p>}
@@ -364,6 +374,7 @@ export default function App(){
         ))}
       </>}
 
+      {/* GRÁFICOS + GMAIL */}
       {tab==="charts"&&<>
         <div style={{background:C.card,borderRadius:"12px",padding:"12px",boxShadow:"0 1px 3px rgba(0,0,0,0.08)"}}>
           <p style={{margin:"0 0 8px",color:C.sub,fontSize:"12px",fontWeight:"700"}}>Por Categoria — Mês Atual</p>
@@ -420,6 +431,7 @@ export default function App(){
 
       </div>
 
+      {/* Bottom Nav */}
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:"480px",background:"#fff",borderTop:`1px solid ${C.border}`,display:"flex",justifyContent:"space-around",padding:"6px 0",zIndex:20,boxShadow:"0 -2px 8px rgba(0,0,0,0.06)"}}>
         {tabs.map(([key,icon,label])=>(
           <button key={key} onClick={()=>setTab(key)} style={{background:"none",border:"none",color:tab===key?"#7c3aed":"#94a3b8",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:"1px",padding:"3px 8px",fontSize:"9px",fontWeight:tab===key?"700":"400"}}>
